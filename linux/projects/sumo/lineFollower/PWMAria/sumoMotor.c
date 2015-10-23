@@ -18,8 +18,8 @@ void pwmOn(){
 	usleep(DELAY);
 }
 
-void avanti(){
-	printf("AVANTI\n\r");
+void forward(){
+	printf("forward\n\r");
 	pwmOff();
 	pwmOn();
 	system("echo  1100000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
@@ -34,13 +34,13 @@ void indietro(){
 	system("echo  1450000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle");
 }
 
-void ruotaSX(){
+void turnSX(){
 	printf("SX\n\r");
 	system("echo  1600000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
 	system("echo  1600000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle");
 }
 
-void ruotaDX(){
+void turnDX(){
 	printf("DX\n\r");
 	system("echo  1400000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
 	system("echo  1400000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle");

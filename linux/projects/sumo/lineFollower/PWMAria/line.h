@@ -9,9 +9,9 @@
 //where the robot is ?
 #define POS_START    0
 #define POS_HOME     1
-#define POS_STRISCIA 2
+#define POS_LINE     2
 #define POS_BAD      3
 #define POS_IMP      4
 
-//The black color is read as 1
+//The black line color is read as 1
 #define BLACK 1

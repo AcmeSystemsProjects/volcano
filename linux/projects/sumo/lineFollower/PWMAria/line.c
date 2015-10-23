@@ -8,130 +8,130 @@
 
 
 extern int position;
-extern int striscia;
+extern int line;
 
 
 void doSensCx(){
 	switch(position){
 		case POS_HOME:
-			printf("ero sulla home, comincio\n\r");
-			position=POS_STRISCIA;
-			avanti();
+			printf("I was on the starting point, start now\n\r");
+			position=POS_LINE;
+			forward();
 			break;
-		case POS_STRISCIA:
-			printf("ero sulla striscia, continuo\n\r");
-			position=POS_STRISCIA;
-			avanti();
+		case POS_LINE:
+			printf("I was on the line, continue\n\r");
+			position=POS_LINE;
+			forward();
 			break;
 		case POS_START:
-			printf("mal posizionato, dovevo essere sulla home\n\r");
+			printf("I was not well located, I had to be on the starting point\n\r");
 			position=POS_BAD;
 			break; // mal posizionato
 		default:
-			printf("imprevisto\n\r");
+			printf("unforeseen\n\r");
 			position=POS_BAD;
-			break; // imprevisto
+			break; // unforeseen
 	}
 }
 
 void doSensDx(){
 	switch(position){
 		case POS_HOME:
-			printf("ero sulla home, continuo a girare x cercare la striscia\n\r");
-			break; // continua a cercare la striscia
-		case POS_STRISCIA:
-			printf("ero uscito di strada, striscia ritrovata, correggo la rotta\n\r");
-			ruotaSX();
+			printf("ero sulla home, continuo a girare x cercare la line\n\r");
+			break; // continua a cercare la line
+		case POS_LINE:
+			printf("ero uscito di strada, line ritrovata, correggo la rotta\n\r");
+			turnSX();
 			break;
 		case POS_START:
-			printf("mal posizionato, devo essere sulla home\n\r");
+			printf("I was not well located, I had to be on the starting point\n\r");
 			position=POS_BAD;
 			break; // mal posizionato
 		default:
-			printf("imprevisto\n\r");
+			printf("unforeseen\n\r");
 			position=POS_BAD;
-			break; // imprevisto
+			break; // unforeseen
 	}
 }
 
 void doSensSx(){
 	switch(position){
 		case POS_HOME:
-			printf("ero sulla home, contirnuo a girare x cercare la striscia\n\r");
-			break;// continua a cercare la striscia
-		case POS_STRISCIA:
-			printf("ero uscito di strada, striscia ritrovata, correggo la rotta\n\r");
-			ruotaDX();
+			printf("ero sulla home, contirnuo a girare x cercare la line\n\r");
+			break;// continua a cercare la line
+		case POS_LINE:
+			printf("ero uscito di strada, line ritrovata, correggo la rotta\n\r");
+			turnDX();
 			break;
 		case POS_START:
-			printf("mal posizionato, dovevo essere sulla home\n\r");
+			printf("I was not well located, I had to be on the starting point\n\r");
 			position=POS_BAD;
 			break; // mal posizionato
 		default:
-			printf("imprevisto\n\r");
+			printf("unforeseen\n\r");
 			position=POS_BAD;
-			break; // imprevisto
+			break; // unforeseen
 	}
 }
 
 void doSensClean(){
 	switch(position){
-		// se era sulla home
+		// If it was on the starting point
 		case POS_HOME:
-			printf("non leggo la striscia, ero nella home\n\r");
-			break; // continua a girare
-		// se parte per la prima volta
+			printf("non leggo la line, ero nella home\n\r");
+			break; // continue to run
+		// If it start for the first time
 		case POS_START:
-			printf("non leggo la striscia, appena acceso, mal posizionato, dovevo essere sulla home\n\r");
-			break;  // imprevisto
-		// se era sulla striscia
-		case POS_STRISCIA:
-			printf("uscito di strada, ero sulla striscia\n\r");
+			printf("I am not able to read the line, just start up, I am not well located, I had to be on the starting point\n\r");
+			break;  // unforeseen
+		// If It was on the line
+		case POS_LINE:
+			printf("I went out the line, I was on the line\n\r");
 			break;
 		default:
-			printf("imprevisto\n\r");
+			printf("unforeseen\n\r");
 			position=POS_BAD;
-			break; // imprevisto
+			break; // unforeseen
 	}
 }
 
 void doSensHome(){
 	switch(position){
 		case POS_START:
-			printf("sono sulla home per la prima volta, si parte !!\n\r");
+			printf("I'm about to start for the first time, I can start !!\n\r");
 			position = POS_HOME;
 			sleep(2);
 			pwmOn();
-			ruotaSX();
-			printf("cerco la striscia sul sensore centrale\n\r");
+			turnSX();
+			printf("I look for the line on the central line sensor\n\r");
 			break;
-		case POS_STRISCIA:
-			printf("sono arrivato sulla home, mi fermo\n\r");
+		case POS_LINE:
+			printf("I arrive on the starting point\n\r");
 			position = POS_HOME;
 			pwmOff();
 			sleep(2);
 			pwmOn();
-			ruotaSX();
+			turnSX();
 			break;
 		case POS_HOME:
-			break; // continua a girare x cercare la striscia
+			break; // I still turn to look for the line
 		default:
-			printf("imprevisto\n\r");
+			printf("unforeseen\n\r");
 			position=POS_BAD;
-			break; // imprevisto
+			break; // unforeseen
 	}
 }
 
-int strisciaRead(){
-	int striscia = SENS_CLEAN;
-	if ( fastReadGpio(S_L) == BLACK ) striscia += SENS_DX;
-	if ( fastReadGpio(S_R) == BLACK ) striscia += SENS_SX;
-	if ( fastReadGpio(S_C) == BLACK ) striscia += SENS_CX;
-	return striscia;
+int lineRead(){
+	int line = SENS_CLEAN;
+	if ( fastReadGpio(LINE_SENSOR_L) == BLACK ) line += SENS_DX;
+	if ( fastReadGpio(LINE_SENSOR_R) == BLACK ) line += SENS_SX;
+	if ( fastReadGpio(LINE_SENSOR_C) == BLACK ) line += SENS_CX;
+	return line;
 }
 
-void strisciaProgram(){
-	switch (striscia){
+void lineProgram(){
+	switch (line){
 		case SENS_CX:
 			doSensCx();
 			break;
@@ -148,11 +148,7 @@ void strisciaProgram(){
 			doSensHome();
 			break;
 		default:
-			// solo due sensori
-			if (position == POS_HOME) {
-				break; // continua a girare
-			}
-			else break;
+			break; // ok
 	}
 }
 

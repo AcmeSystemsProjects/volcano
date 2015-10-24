@@ -3,6 +3,7 @@
 echo
 echo "Test for MCP23017"
 
+
 #MCP23017 at reset:
   #pin ALL INPUT
 #READ GPIOA

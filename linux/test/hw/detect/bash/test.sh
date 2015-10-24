@@ -4,6 +4,7 @@ echo
 echo "Test for detect all I2C chip"
 echo
 
+
 i2cdetect -y 0
 
 echo

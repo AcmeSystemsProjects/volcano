@@ -3,6 +3,7 @@
 echo
 echo "Test for ST24C16"
 
+
 echo "Do you want read single register [r] or write [w] ? "
 read  -n 1 OPERATION
 echo
